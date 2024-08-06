@@ -5,7 +5,6 @@ class Solution {
             ++count[c - 'a'];
         Arrays.sort(count);
         int ans = 0;
-        int push = 0;
         for (int i = 0; i < 26; ++i) {
             ans += (count[25 - i] * (i / 8 + 1));
         }
