@@ -15,59 +15,41 @@
  */
 class Solution {
     public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
-        if (root == null)
-           return new ArrayList<>();
+        if (root == null) {
+            return new ArrayList<>();
+        }
+        boolean reverse = false;
         List<List<Integer>> ans = new ArrayList<>();
-        Deque<TreeNode> q = new ArrayDeque<>();
-        boolean alter = false;
-        q.offer(root);
+        Deque<TreeNode> q = new LinkedList<>();
+        q.add(root);
+
         while (!q.isEmpty()) {
-            int len = q.size();
-            List<Integer> list = new ArrayList<>();
-            while (len-- > 0) {
-                if (alter) {
-                    TreeNode node = q.pollLast();
-                    if (node.right != null)
-                       q.addFirst(node.right);
-                    if (node.left != null)
-                       q.addFirst(node.left);
-                    list.add(node.val);
+            List<Integer> values = new ArrayList<>();
+            for (int i = q.size() - 1; i >= 0; --i) {
+                if (!reverse) {
+                    TreeNode node = q.pollFirst();
+                    values.add(node.val);
+                    if (node.left != null) {
+                        q.addLast(node.left);
+                    }
+                    if (node.right != null) {
+                        q.addLast(node.right);
+                    }
                 }
                 else {
-                    TreeNode node = q.pollFirst();
-                    if (node.left != null)
-                       q.addLast(node.left);
-                    if (node.right != null)
-                       q.addLast(node.right);
-                    list.add(node.val);
+                    TreeNode node = q.pollLast();
+                    values.add(node.val);
+                    if (node.right != null) {
+                        q.addFirst(node.right);
+                    }
+                    if (node.left != null) {
+                        q.addFirst(node.left);
+                    }
                 }
             }
-            alter = !alter;
-            ans.add(list);
+            ans.add(values);
+            reverse = !reverse;
         }
         return ans;
-        /*if (root == null)
-           return new ArrayList<>();
-        List<List<Integer>> ans = new ArrayList<>();
-        Queue<TreeNode> q = new ArrayDeque<>();
-        int alter = 0;
-        q.offer(root);
-        while (!q.isEmpty()) {
-            int len = q.size();
-            List<Integer> list = new ArrayList<>();
-            while (len-- > 0) {
-                TreeNode node = q.poll();
-                if (node.left != null)
-                   q.offer(node.left);
-                if (node.right != null)
-                   q.offer(node.right);
-                list.add(node.val);
-            }
-            if (alter++ % 2 == 1)
-               Collections.reverse(list);
-            ans.add(list);
-        }
-        return ans;
-        */
     }
 }
