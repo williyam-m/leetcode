@@ -15,25 +15,25 @@
  */
 class Solution {
     public List<Integer> rightSideView(TreeNode root) {
-        if (root == null)
-           return new ArrayList<>();
-        
         List<Integer> ans = new ArrayList<>();
-        Queue<TreeNode> queue = new ArrayDeque<>();
-        queue.add(root);
-        
-        while (!queue.isEmpty()) {
-            int len = queue.size();
+        if (root == null) {
+            return ans;
+        }
+        Deque<TreeNode> q = new ArrayDeque<>();
+        q.offer(root);
 
-            while (len-- > 0) {
-                TreeNode node = queue.poll();
-                if (len == 0)
-                   ans.add(node.val);
-                
-                if (node.left != null)
-                    queue.add(node.left);
-                if (node.right != null)
-                    queue.add(node.right);
+        while (!q.isEmpty()) {
+            for (int i = q.size() - 1; i >= 0; --i) {
+                TreeNode node = q.poll();
+                if (i == 0) {
+                    ans.add(node.val);
+                }
+                if (node.left != null) {
+                    q.add(node.left);
+                }
+                if (node.right != null) {
+                    q.add(node.right);
+                }
             }
         }
         return ans;
