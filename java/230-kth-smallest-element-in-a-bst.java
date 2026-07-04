@@ -14,37 +14,21 @@
  * }
  */
 class Solution {
-    int ans = -1;
-    int rank = 0;
+    private int k = 0;
+    private int val = -1;
     public int kthSmallest(TreeNode root, int k) {
         inOrder(root, k);
-        return ans;
+        return this.val;
     }
-    private void inOrder (TreeNode root, int k) {
-        if (root == null)
-           return ;
-        
+    private void inOrder(TreeNode root, int k) {
+        if (this.val != -1 || root == null) {
+            return;
+        }
         inOrder(root.left, k);
-        if (++rank == k)
-            ans = root.val;
+        if (++this.k == k) {
+            this.val = root.val;
+            return;
+        }
         inOrder(root.right, k);
     }
-
-    /*
-    public int kthSmallest(TreeNode root, int k) {
-        Queue<Integer> maxHeap = new PriorityQueue<>((a, b) -> (b - a));
-        dfs(root, maxHeap, k);
-        return maxHeap.peek();
-    }
-    private void dfs (TreeNode root, Queue<Integer> maxHeap, int k) {
-        if (root == null)
-           return ;
-        
-        maxHeap.offer(root.val);
-        if (maxHeap.size() > k)
-           maxHeap.poll();
-        dfs(root.left, maxHeap, k);
-        dfs(root.right, maxHeap, k);
-    }
-    */
 }
