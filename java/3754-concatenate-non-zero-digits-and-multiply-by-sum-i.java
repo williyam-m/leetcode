@@ -1,18 +1,16 @@
 class Solution {
     public long sumAndMultiply(int n) {
-        long ans = 0;
-        long tens = 1;
-        int sum = 0;
+        long x = 0;
+        long sum = 0;
+        long position = 1;
         while (n > 0) {
-            int mod = n % 10;
-            if (mod != 0) {
-                ans = tens * mod + ans;
-                sum += mod;
-                tens *= 10;
+            if ((n % 10) != 0) {
+                x += position * (n % 10);
+                sum += (n % 10);
+                position *= 10;
             }
             n /= 10;
         }
-
-        return ans * sum;
+        return x * sum;
     }
 }
