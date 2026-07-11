@@ -1,26 +1,32 @@
 class Solution {
+    private int island = 0;
+    private boolean[][] seen;
     public int numIslands(char[][] grid) {
-        int ans = 0;
-        for (int i = 0; i < grid.length; ++i) {
-            for (int j = 0; j < grid[0].length; ++j) {
-                if (grid[i][j] == '1') {
-                    island(grid, i, j);
-                    ++ans;
+        int m = grid.length;
+        int n = grid[0].length;
+        seen = new boolean[m][n];
+        int islands = 0;
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (grid[i][j] == '1' && !seen[i][j]) {
+                    fill(grid, i, j, m, n);
+                    ++islands;
                 }
             }
         }
-        return ans;
+        return islands;
     }
-
-    private void island(char[][] grid, int i, int j) {
-        if (i < 0 || j < 0 || i >= grid.length || j >= grid[0].length)
+    private void fill(char[][] grid, int i, int j, int m, int n) {
+        if (i < 0 || j < 0 || i >= m || j >= n) {
             return;
-        if (grid[i][j] == '0')
+        }
+        if (grid[i][j] == '0' || seen[i][j]) {
             return;
-        grid[i][j] = '0';
-        island(grid, i + 1, j);
-        island(grid, i, j + 1);
-        island(grid, i - 1, j);
-        island(grid, i, j - 1);
+        }
+        seen[i][j] = true;
+        fill(grid, i, j + 1, m, n);
+        fill(grid, i + 1, j, m, n);
+        fill(grid, i, j - 1, m, n);
+        fill(grid, i - 1, j, m, n);
     }
 }
