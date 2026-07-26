@@ -1,49 +1,47 @@
 class Solution {
-    private boolean flag = false;
+    private int n;
+    private int m;
+    private boolean[][] notSurrounded;
     public void solve(char[][] board) {
-        int m = board.length;
-        int n = board[0].length;
+        n = board.length;
+        m = board[0].length;
+        notSurrounded = new boolean[n][m];
+        for (int j = 0; j < m; ++j) {
+            if (board[0][j] == 'O') {
+                markAsNotSurrounded(0, j, board);
+            }
+            if (board[n - 1][j] == 'O') {
+                markAsNotSurrounded(n - 1, j, board);
+            }
+        }
 
-        for (int i = 0; i < m; ++i) {
-            for (int j = 0; j < n; ++j) {
-                if (board[i][j] == 'O') {
-                    isContainEdge(board, i, j, new char[m][n]);
-                    if (!flag)
-                        surround(board, i, j);
-                    flag = false;
+        for (int i = 0; i < n; ++i) {
+            if (board[i][0] == 'O') {
+                markAsNotSurrounded(i, 0, board);
+            }
+            if (board[i][m - 1] == 'O') {
+                markAsNotSurrounded(i, m - 1, board);
+            }
+        }
+        for (int i = 1; i < n - 1; ++i) {
+            for (int j = 1; j < m - 1; ++j) {
+                if (board[i][j] == 'O' && !notSurrounded[i][j]) {
+                    board[i][j] = 'X';
                 }
             }
         }
     }
-
-    private void isContainEdge(char[][] board, int i, int j, char[][] seen) {
-        if (flag)
-            return;
-        if (i < 0 || j < 0 || i >= board.length || j >= board[0].length) {
-            flag = true;
+    private void markAsNotSurrounded(int i, int j, char[][] board) {
+        if (i < 0 || i > n - 1 || j < 0 || j > m - 1 || board[i][j] == 'X') {
             return;
         }
-
-        if (board[i][j] == 'X' || seen[i][j] == 'X')
+        if (board[i][j] == 'X' || notSurrounded[i][j]) {
             return;
-
-        seen[i][j] = 'X';
-        isContainEdge(board, i - 1, j, seen);
-        isContainEdge(board, i + 1, j, seen);
-        isContainEdge(board, i, j + 1, seen);
-        isContainEdge(board, i, j - 1, seen);
-    }
-
-    private void surround(char[][] board, int i, int j) {
-        if (i < 0 || j < 0 || i >= board.length || j >= board[0].length)
-            return;
-        if (board[i][j] == 'X')
-            return;
-
-        board[i][j] = 'X';
-        surround(board, i - 1, j);
-        surround(board, i + 1, j);
-        surround(board, i, j + 1);
-        surround(board, i, j - 1);
+        }
+        notSurrounded[i][j] = true;
+        markAsNotSurrounded(i + 1, j, board);
+        markAsNotSurrounded(i - 1, j, board);
+        markAsNotSurrounded(i, j + 1, board);
+        markAsNotSurrounded(i, j - 1, board);
     }
 }
