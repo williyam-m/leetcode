@@ -1,19 +1,16 @@
 class Solution {
     public int smallestNumber(int n, int t) {
-        int ans = n;
-        while (true) {
-            if (prodOfDigits(ans) % t == 0)
-               break;
-            ++ans;
+        while (!(findDigitProduct(n) % t == 0)) {
+            ++n;
         }
-        return ans;
+        return n;
     }
-    private int prodOfDigits(int n) {
-        int res = 1;
-        while (n != 0) {
-            res *= (n % 10);
+    private int findDigitProduct(int n) {
+        int ans = 1;
+        while (n > 0) {
+            ans *= n % 10;
             n /= 10;
         }
-        return res;
+        return ans;
     }
 }
