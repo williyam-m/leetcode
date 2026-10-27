@@ -1,13 +1,13 @@
 class Solution {
     public String[] createGrid(int m, int n) {
-        String[] path = new String[m];
+        String[] ans = new String[m];
         for (int i = 0; i < m; ++i) {
-            StringBuilder sd = new StringBuilder();
-            for (int j = 0; j < n; ++j) {
-                sd.append((i == 0 || j == n - 1) ? '.' : '#');
+            StringBuilder sb = new StringBuilder(".");
+            for (int j = 0; j < n - 1; ++j) {
+                sb.append(i == m - 1 ? "." : '#');
             }
-            path[i] = sd.toString();
+            ans[i] = sb.toString();
         }
-        return path;
+        return ans;
     }
 }
