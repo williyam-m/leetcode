@@ -3,25 +3,28 @@ class Solution {
         int five = 0;
         int ten = 0;
         for (int bill : bills) {
-            if (bill == 20) {
-                if ((five < 1 || ten < 1) && five < 3)
-                   return false;
-                if (ten < 1) {
-                    five -= 3;
-                }
-                else {
-                    --five;
-                    --ten;
-                }
+            if (bill == 5) {
+                ++five;
             }
             else if (bill == 10) {
-                if (five < 1)
-                   return false;
+                if (five < 1) {
+                    return false;
+                }
                 --five;
                 ++ten;
             }
-            else
-                ++five;
+            else if (bill == 20) {
+                if (ten >= 1 && five >= 1) {
+                    --five;
+                    --ten;
+                }
+                else if (five >= 3) {
+                    five -= 3;
+                }
+                else {
+                    return false;
+                }
+            }
         }
         return true;
     }
